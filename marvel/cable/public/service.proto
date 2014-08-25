@@ -1,0 +1,357 @@
+package marvel.cable.public;
+
+import "fender/v1.proto";
+import "fender/v1/field_options.proto";
+import "marvel/cable/public/messages.proto";
+import "marvel/cable/public/requests.proto";
+
+service MarvelService {
+  option (fender.v1.fender_service) = {
+    address: "https://gateway.marvel.com",
+    transport: HTTPS,
+    request_format: JSON
+  };
+
+  /** Fetches lists of characters */
+  rpc Characters (CharactersRequest) returns (CharacterDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/characters"
+    };
+  }
+
+  /** Fetches a single character by id */
+  rpc Character (CharacterRequest) returns (CharacterDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/characters/{+characterId}"
+    };
+  }
+
+  /** Fetches lists of comics filtered by a character id */
+  rpc CharacterComics (CharacterComicsRequest) returns (ComicDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/characters/{+characterId}/comics",
+      request_body_field: { name: "comicsRequest" }
+
+    };
+  }
+
+  /** Fetches lists of events filtered by a character id */
+  rpc CharacterEvents (CharacterEventsRequest) returns (EventDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/characters/{+characterId}/events",
+      request_body_field: { name: "eventsRequest" }
+    };
+  }
+
+  /** Fetches lists of series filtered by a character id */
+  rpc CharacterSeries (CharacterSeriesRequest) returns (SeriesDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/characters/{+characterId}/series",
+      request_body_field: { name: "seriesRequest" }
+    };
+  }
+
+  /** Fetches lists of stories filtered by a character id */
+  rpc CharacterStories (CharacterStoriesRequest) returns (StoryDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/characters/{+characterId}/stories",
+      request_body_field: { name: "storiesRequest" }
+    };
+  }
+
+  /** Fetches lists of comics */
+  rpc Comics (ComicsRequest) returns (ComicDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/comics"
+    };
+  }
+
+  /** Fetches a single comic by id. */
+  rpc Comic (ComicRequest) returns (ComicDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/comics/{+comicId}"
+    };
+  }
+
+  /**
+   * Fetches lists of characters which appear in a specific comic with optional filters. See notes on individual parameters below.
+   */
+  rpc ComicCharacters (ComicCharactersRequest) returns (ComicDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/comics/{+comicId}/characters",
+      request_body_field: { name: "charactersRequest" }
+    };
+  }
+
+  /** Fetches lists of comic creators whose work appears in a specific comic, with optional filters. See notes on individual parameters below. */
+  rpc ComicCreators (ComicCreatorsRequest) returns (CreatorDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/comics/{+comicId}/creators",
+      request_body_field: { name: "creatorsRequest" }
+
+    };
+  }
+
+  /** Fetches lists of events in which a specific comic appears, with optional filters. See notes on individual parameters below. */
+  rpc ComicEvents (ComicEventsRequest) returns (EventDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/comics/{+comicId}/events",
+      request_body_field: { name: "eventsRequest" }
+    };
+  }
+
+  /** Fetches lists of comic stories in a specific comic issue, with optional filters. See notes on individual parameters below. */
+  rpc ComicStories (ComicStoriesRequest) returns (StoryDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/comics/{+comicId}/stories",
+      request_body_field: { name: "storiesRequest" }
+    };
+  }
+
+  /** Fetches lists of comic creators with optional filters. See notes on individual parameters below. */
+  rpc Creators (CreatorsRequest) returns (CreatorDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/creators"
+    };
+  }
+
+  /** This method fetches a single creator resource. It is the canonical URI for any creator resource provided by the API. */
+  rpc Creator (CreatorRequest) returns (CreatorDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/creators/{+creatorId}"
+    };
+  }
+
+  /** Fetches lists of comics in which the work of a specific creator appears, with optional filters. See notes on individual parameters below. */
+  rpc CreatorComics (CreatorComicsRequest) returns (ComicDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/creators/{+creatorId}/comics",
+      request_body_field: { name: "comicsRequest" }
+    };
+  }
+
+  /** Fetches lists of events featuring the work of a specific creator with optional filters. See notes on individual parameters below. */
+  rpc CreatorEvents (CreatorEventsRequest) returns (EventDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/creators/{+creatorId}/events",
+      request_body_field: { name: "eventsRequest" }
+    };
+  }
+
+  /** Fetches lists of comic series in which a specific creator's work appears, with optional filters. See notes on individual parameters below. */
+  rpc CreatorSeries (CreatorSeriesRequest) returns (SeriesDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/creators/{+creatorId}/series",
+      request_body_field: { name: "seriesRequest" }
+    };
+  }
+
+  /** Fetches lists of comic stories by a specific creator with optional filters. See notes on individual parameters below. */
+  rpc CreatorStories (CreatorStoriesRequest) returns (StoryDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/creators/{+creatorId}/stories",
+      request_body_field: { name: "storiesRequest" }
+    };
+  }
+
+  /** Fetches lists of events with optional filters. See notes on individual parameters below. */
+  rpc Events (EventsRequest) returns (EventDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/events"
+    };
+  }
+
+  /** This method fetches a single event resource. It is the canonical URI for any event resource provided by the API. */
+  rpc Event (EventRequest) returns (EventDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/events/{+eventId}"
+    };
+  }
+
+  /** Fetches lists of characters which appear in a specific event, with optional filters. See notes on individual parameters below. */
+  rpc EventCharacters (EventCharactersRequest) returns (CharacterDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/events/{+eventId}/characters",
+      request_body_field: { name: "charactersRequest" }
+    };
+  }
+
+  /** Fetches lists of comics which take place during a specific event, with optional filters. See notes on individual parameters below. */
+  rpc EventComics (EventComicsRequest) returns (ComicDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/events/{+eventId}/comics",
+      request_body_field: { name: "comicsRequest" }
+    };
+  }
+
+  /** Fetches lists of comic creators whose work appears in a specific event, with optional filters. See notes on individual parameters below. */
+  rpc EventCreators (EventCreatorsRequest) returns (CreatorDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/events/{+eventId}/creators",
+      request_body_field: { name: "creatorsRequest" }
+    };
+  }
+
+  /** Fetches lists of comic series in which a specific event takes place, with optional filters. See notes on individual parameters below. */
+  rpc EventSeries (EventSeriesRequest) returns (SeriesDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/events/{+eventId}/series",
+      request_body_field: { name: "seriesRequest" }
+    };
+  }
+
+  /** Fetches lists of comic stories from a specific event, with optional filters. See notes on individual parameters below. */
+  rpc EventStories (EventStoriesRequest) returns (StoryDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/events/{+eventId}/stories",
+      request_body_field: { name: "storiesRequest" }
+    };
+  }
+
+  /** Fetches lists of comic series with optional filters. See notes on individual parameters below. */
+  rpc SeriesList (SeriesListRequest) returns (SeriesDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/series"
+    };
+  }
+
+  /** This method fetches a single comic series resource. It is the canonical URI for any comic series resource provided by the API. */
+  rpc Series (SeriesRequest) returns (SeriesDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/series/{+seriesId}"
+    };
+  }
+
+  /** Fetches lists of characters which appear in specific series, with optional filters. See notes on individual parameters below. */
+  rpc SeriesCharacters (SeriesCharactersRequest) returns (CharacterDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/series/{+seriesId}/characters",
+      request_body_field: { name: "charactersRequest" }
+    };
+  }
+
+  /** Fetches lists of comics which are published as part of a specific series, with optional filters. See notes on individual parameters below. */
+  rpc SeriesComics (SeriesComicsRequest) returns (ComicDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/series/{+seriesId}/comics",
+      request_body_field: { name: "comicsRequest" }
+    };
+  }
+  
+  /** Fetches lists of comic creators whose work appears in a specific series, with optional filters. See notes on individual parameters below. */
+  rpc SeriesCreators (SeriesCreatorsRequest) returns (CreatorDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/series/{+seriesId}/creators",
+      request_body_field: { name: "creatorsRequest" }
+    };
+  }
+
+  /** Fetches lists of events which occur in a specific series, with optional filters. See notes on individual parameters below. */
+  rpc SeriesEvents (SeriesEventsRequest) returns (EventDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/series/{+seriesId}/events",
+      request_body_field: { name: "eventsRequest" }
+    };
+  }
+
+  /** Fetches lists of comic stories from a specific series with optional filters. See notes on individual parameters below. */
+  rpc SeriesStories (SeriesStoriesRequest) returns (StoryDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/series/{+seriesId}/stories",
+      request_body_field: { name: "storiesRequest" }
+    };
+  }
+
+  /** Fetches lists of comic stories with optional filters. See notes on individual parameters below. */
+  rpc Stories (StoriesRequest) returns (StoryDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/stories"
+    };
+  }
+
+  /** This method fetches a single comic story resource. It is the canonical URI for any comic story resource provided by the API. */
+  rpc Story (StoryRequest) returns (StoryDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/stories/{+storyId}"
+    };
+  }
+
+  /** Fetches lists of comic characters appearing in a single story, with optional filters. See notes on individual parameters below. */
+  rpc StoryCharacters (StoryCharactersRequest) returns (CharacterDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/stories/{+storyId}/characters",
+      request_body_field: { name: "charactersRequest" }
+    };
+  }
+
+  /** Fetches lists of comics in which a specific story appears, with optional filters. See notes on individual parameters below. */
+  rpc StoryComics (StoryComicsRequest) returns (ComicDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/stories/{+storyId}/comics",
+      request_body_field: { name: "comicsRequest" }
+    };
+  }
+
+  /** Fetches lists of comic creators whose work appears in a specific story, with optional filters. See notes on individual parameters below. */
+  rpc StoryCreators (StoryCreatorsRequest) returns (CreatorDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/stories/{+storyId}/creators",
+      request_body_field: { name: "creatorsRequest" }
+    };
+  }
+
+  /** Fetches lists of events in which a specific story appears, with optional filters. See notes on individual parameters below. */
+  rpc StoryEvents (StoryEventsRequest) returns (EventDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/stories/{+storyId}/events",
+      request_body_field: { name: "eventsRequest" }
+    };
+  }
+
+  /** Fetches lists of comic series in which the specified story takes place. See notes on individual parameters below. */
+  rpc StorySeries (StorySeriesRequest) returns (SeriesDataWrapper) {
+    option (fender.v1.fender_method) = {
+      http_method: GET,
+      http_path: "/v1/public/stories/{+storyId}/series",
+      request_body_field: { name: "seriesRequest" }
+    };
+  }
+}

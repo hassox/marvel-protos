@@ -1,0 +1,4 @@
+{
+  public: <your public key>,
+  private: <your private key>
+}

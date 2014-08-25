@@ -1,0 +1,644 @@
+package marvel.cable.public;
+
+import "fender/v1.proto";
+import "fender/v1/field_options.proto";
+import "marvel/cable/public/messages.proto";
+
+message CharactersRequest {
+  /** Return only characters matching the specified full character name (e.g. Spider-Man). */
+  optional string name = 1;
+
+  /** Return characters with names that begin with the specified string (e.g. Sp). */
+  optional string nameStartsWith = 2;
+
+  /** Return only characters which have been modified since the specified date. */
+  optional string modifiedSince = 3; //date
+
+  /** Return only characters which appear in the specified comics (accepts a comma-separated list of ids). */
+  optional string comics = 4;
+
+  /** Return only characters which appear the specified series (accepts a comma-separated list of ids). */
+  optional string series = 5;
+
+  /** Return only characters which appear in the specified events (accepts a comma-separated list of ids). */
+  optional string events = 6;
+
+  /** Return only characters which appear the specified stories (accepts a comma-separated list of ids). */
+  optional string stories = 7;
+
+  /** 
+   * Order the result set by a field or fields. 
+   * Add a "-" to the value sort in descending order. 
+   * Multiple values are given priority in the order in which they are passed. 
+   *
+   * Valid Values: 
+   * 
+   * * 'name'
+   * * 'modified'
+   * * '-name'
+   * * '-modified'
+   *
+   */
+  optional string orderBy = 8;
+
+  /** Limit the result set to the specified number of resources. */
+  optional uint32 limit = 9 [(fender.v1.fender_field) = { max: 100, min: 1} ];
+
+  /** Skip the specified number of resources in the result set. */
+  optional uint32 offset = 10;
+
+  optional string apikey = 100;
+  optional string ts = 101;
+  optional string hash = 102;
+}
+
+message CharacterRequest {
+  /** A single character id. */
+  optional int32 characterId = 1 [(fender.v1.fender_field).present = true];
+  optional string apikey = 100;
+  optional string ts = 101;
+  optional string hash = 102;
+}
+
+message CharacterComicsRequest {
+  /** A single character id. */
+  optional int32 characterId = 1 [(fender.v1.fender_field).present = true];
+  optional ComicsRequest comicsRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message CharacterEventsRequest {
+  /** A single character id. */
+  optional int32 characterId = 1 [(fender.v1.fender_field).present = true];
+  optional EventsRequest eventsRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message CharacterSeriesRequest {
+  /** The character ID */
+  optional int32 characterId = 1 [(fender.v1.fender_field).present = true];
+  optional SeriesListRequest seriesRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message CharacterStoriesRequest {
+  /** The character ID. */
+  optional int32 characterId = 1 [(fender.v1.fender_field).present = true];
+  optional StoriesRequest storiesRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message ComicsRequest {
+  /** Filter by the issue format (e.g. comic, digital comic, hardcover).
+   * Valid Values:
+   * 
+   * * 'comic'
+   * * 'magazine'
+   * * 'trade paperback'
+   * * 'hardcover'
+   * * 'digest'
+   * * 'graphic novel'
+   * * 'digital comic'
+   * * 'infinite comic'
+   *
+   */
+  optional string format = 1;
+
+  /** Filter by the issue format type (comic or collection). */
+  optional FormatType formatType = 2;
+
+  /** Exclude variants (alternate covers, secondary printings, director's cuts, etc.) from the result set. */
+  optional bool noVariants = 3 [default = false];
+
+  /** Return comics within a predefined date range. */
+  optional DateDescriptor dateDescriptor = 4;
+
+  /** 
+   * Return comics within a predefined date range. 
+   * Dates must be specified as date1,date2 (e.g. 2013-01-01,2013-01-02). 
+   * Dates are preferably formatted as YYYY-MM-DD but may be sent as any common date format.
+   */
+  optional string dateRange = 5;
+
+  /** Return only issues in series whose title matches the input. */
+  optional string title = 6;
+
+  /** Return only issues in series whose title starts with the input. */
+  optional string titleStartsWith = 7;
+
+  /** Return only issues in series whose start year matches the input. */
+  optional uint32 startYear = 8;
+
+  /** Return only issues in series whose issue number matches the input. */
+  optional int32 issueNumber = 9;
+
+  /** Filter by diamond code. */
+  optional string diamondCode = 10;
+
+  /** Filter by digital comic id. */
+  optional int32 digitalId = 11;
+
+  /** Filter by UPC. */
+  optional string upc = 12;
+
+  /** Filter by ISBN. */
+  optional string isbn = 13;
+
+  /** Filter by EAN. */
+  optional string ean = 14;
+
+  /** Filter by ISSN. */
+  optional string issn = 15;
+
+  /** Include only results which are available digitally. */ 
+  optional bool hasDigitalIssue = 16 [default = false];
+
+  /** Return only comics which have been modified since the specified date. */
+  optional string modifiedSince = 17; //date
+
+  /** Return only comics which feature work by the specified creators (accepts a comma-separated list of ids). */
+  optional string creators = 18;
+
+  /** Return only comics which feature the specified characters (accepts a comma-separated list of ids). */
+  optional string characters = 19;
+
+  /** Return only comics which are part of the specified series (accepts a comma-separated list of ids). */
+  optional string series = 20;
+
+  /** Return only comics which take place in the specified events (accepts a comma-separated list of ids). */
+  optional string events = 21;
+
+  /** Return only comics which contain the specified stories (accepts a comma-separated list of ids). */
+  optional string stories = 22;
+
+  /** 
+   * Return only comics in which the specified characters appear together (for example in which BOTH Spider-Man and Wolverine appear). 
+   * Accepts a comma-separated list of ids. 
+   */
+  optional string sharedAppearances = 23;
+
+  /**
+   * Return only comics in which the specified creators worked together (for example in which BOTH Stan Lee and Jack Kirby did work). 
+   * Accepts a comma-separated list of ids.
+   */
+  optional string collaborators = 24;
+
+  /** 
+   * Order the result set by a field or fields. 
+   * Add a "-" to the value sort in descending order. 
+   * Multiple values are given priority in the order in which they are passed.
+   *
+   * Valid Values:
+   * 
+   * * 'focDate'
+   * * 'onsaleDate'
+   * * 'title'
+   * * 'issueNumber'
+   *
+   */
+  optional string orderBy = 25;
+
+  /** Limit the result set to the specified number of resources. */
+  optional uint32 limit = 26 [(fender.v1.fender_field) = { max: 100, min: 1} ];
+
+  /** Skip the specified number of resources in the result set. */
+  optional uint32 offset = 27;
+  optional string apikey = 100;
+  optional string ts = 101;
+  optional string hash = 102;
+}
+
+message ComicRequest {
+  optional int32 comicId = 1 [(fender.v1.fender_field).present = true];
+  optional string apikey = 100;
+  optional string ts = 102;
+  optional string hash = 103;
+}
+
+message ComicCharactersRequest {
+  optional int32 comicId = 1 [(fender.v1.fender_field).present = true];
+  optional CharactersRequest charactersRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message ComicCreatorsRequest {
+  /** The comic id. */
+  optional int32 comicId = 1 [(fender.v1.fender_field).present = true];
+  optional CreatorsRequest creatorsRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message ComicEventsRequest {
+  /** The comic ID. */
+  optional int32 comicId = 1 [(fender.v1.fender_field).present = true];
+  optional EventsRequest eventsRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message ComicStoriesRequest {
+  /** The Comic ID. */
+  optional int32 comicId = 1 [(fender.v1.fender_field).present = true];
+  optional StoriesRequest storiesRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message CreatorsRequest {
+  /** Filter by creator first name (e.g. Brian). */
+  optional string firstName = 1;
+
+  /** Filter by creator middle name (e.g. Michael). */
+  optional string middleName = 2;
+
+  /** Filter by creator last name (e.g. Bendis). */
+  optional string lastName = 3;
+
+  /** Filter by suffix or honorific (e.g. Jr., Sr.). */
+  optional string suffix = 4;
+
+  /** Filter by creator names that match critera (e.g. B, St L). */
+  optional string nameStartsWith = 5;
+
+  /** Filter by creator first names that match critera (e.g. B, St L). */
+  optional string firstNameStartsWith = 6;
+
+  /** Filter by creator middle names that match critera (e.g. Mi). */
+  optional string middleNameStartsWith = 7;
+
+  /** Filter by creator last names that match critera (e.g. Ben). */
+  optional string lastNameStartsWith = 8;
+
+  /** Return only creators which have been modified since the specified date. */
+  optional string modifiedSince = 9; //date
+
+  /** Return only creators who worked on in the specified comics (accepts a comma-separated list of ids). */
+  optional string comics = 10;
+
+  /** Return only creators who worked on the specified series (accepts a comma-separated list of ids). */
+  optional string series = 11;
+
+  /** Return only creators who worked on comics that took place in the specified events (accepts a comma-separated list of ids). */
+  optional string events = 12;
+
+  /** Return only creators who worked on the specified stories (accepts a comma-separated list of ids). */
+  optional string stories = 13;
+
+  /** 
+   * Order the result set by a field or fields. 
+   * Add a "-" to the value sort in descending order. 
+   * Multiple values are given priority in the order in which they are passed.
+   *
+   * Valid Values: 
+   * 
+   * * 'middleName'
+   * * suffix'
+   * * 'modified'
+   * * '-lastName'
+   *
+   */
+  optional string orderBy = 14;
+
+  /** Limit the result set to the specified number of resources. */
+  optional uint32 limit = 15 [(fender.v1.fender_field) = { max: 100, min: 1} ];
+
+  /** Skip the specified number of resources in the result set. */
+  optional uint32 offset = 16;
+  optional string apikey = 100;
+  optional string ts = 101;
+  optional string hash = 102;
+}
+
+message CreatorRequest {
+  /** A single creator id. */
+  optional int32 creatorId = 1 [(fender.v1.fender_field).present = true];
+  optional string apikey = 100;
+  optional string ts = 101;
+  optional string hash = 102;
+}
+
+message CreatorComicsRequest {
+  /** The creator ID. */
+  optional int32 creatorId = 1 [(fender.v1.fender_field).present = true];
+  optional ComicsRequest comicsRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message CreatorEventsRequest {
+  /** The creator ID. */
+  optional int32 creatorId = 1 [(fender.v1.fender_field).present = true];
+  optional ComicsRequest comicsRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message CreatorSeriesRequest {
+  /** The creator ID. */
+  optional int32 creatorId = 1 [(fender.v1.fender_field).present = true];
+  optional SeriesListRequest seriesRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message CreatorStoriesRequest {
+  /** The ID of the creator. */
+  optional int32 creatorId = 1 [(fender.v1.fender_field).present = true];
+  optional StoriesRequest storiesRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message EventsRequest {
+  /** Filter the event list by name. */
+  optional string name = 1;
+
+  /** Return events with names that begin with the specified string (e.g. Sp). */
+  optional string nameStartsWith = 2;
+
+  /** Return only events which have been modified since the specified date. */
+  optional string modifiedSince = 3;
+
+  /** Return only events which feature work by the specified creators (accepts a comma-separated list of ids). */
+  optional string creators = 4;
+
+  /** Return only events which are part of the specified series (accepts a comma-separated list of ids). */
+  optional string series = 5;
+
+  /** Return only events which take place in the specified comics (accepts a comma-separated list of ids). */
+  optional string comics = 6;
+
+  /** Return only events which contain the specified stories (accepts a comma-separated list of ids). */
+  optional string stories = 7;
+
+  /**
+   * Order the result set by a field or fields. 
+   * Add a "-" to the value sort in descending order. 
+   * Multiple values are given priority in the order in which they are passed.
+   * Valid values are:
+   *
+   * * name
+   * * startDate
+   * * modified
+   * * -name
+   * * -startDate
+   * * -modified
+   */
+  optional string orderBy = 8;
+
+  /** Limit the result set to the specified number of resources. */
+  optional uint32 limit = 9 [(fender.v1.fender_field) = { max: 100, min: 1}];
+
+  /** Skip the specified number of resources in the result set. */
+  optional uint32 offset = 10;
+  optional string apikey = 100;
+  optional string ts = 101;
+  optional string hash = 102;
+}
+
+message EventRequest {
+  /** A single event. */
+  optional int32 eventId = 1;
+  optional string apikey = 100;
+  optional string ts = 101;
+  optional string hash = 102;
+}
+
+message EventCharactersRequest {
+  /** The event ID */
+  optional int32 eventId = 1 [(fender.v1.fender_field).present = true];
+  optional CharactersRequest charactersRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message EventComicsRequest {
+  /** The event id. */
+  optional int32 eventId = 1 [(fender.v1.fender_field).present = true];
+  optional ComicsRequest comicsRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message EventCreatorsRequest {
+  /** The event ID. */
+  optional int32 eventId = 1 [(fender.v1.fender_field).present = true];
+  optional CreatorsRequest creatorsRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message EventSeriesRequest {
+  /** The event ID. */
+  optional int32 eventId = 1 [(fender.v1.fender_field).present = true];
+  optional SeriesListRequest seriesRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message EventStoriesRequest {
+  /** The ID of the event. */
+  optional int32 eventId = 1 [(fender.v1.fender_field).present = true];
+  optional StoriesRequest storiesRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message SeriesListRequest {
+  /** Filter by series title. */
+  optional string title = 1;
+
+  /** Return series with titles that begin with the specified string (e.g. Sp). */
+  optional string titleStartsWith = 2;
+
+  /** Return only series matching the specified start year. */
+  optional uint32 startYear = 3;
+
+  /** Return only series which have been modified since the specified date. */
+  optional string modifiedSince = 4;
+
+  /** Return only series which contain the specified comics (accepts a comma-separated list of ids). */
+  optional string comics = 5;
+
+  /** Return only series which contain the specified stories (accepts a comma-separated list of ids). */
+  optional string stories = 6;
+
+  /** Return only series which have comics that take place during the specified events (accepts a comma-separated list of ids). */
+  optional string events = 7;
+
+  /** Return only series which feature work by the specified creators (accepts a comma-separated list of ids). */
+  optional string creators = 8;
+
+  /**
+   * Filter the series by publication frequency type.
+   * Valid Values:
+   *
+   * * 'collection'
+   * * 'one shot'
+   * * 'limited'
+   * * 'ongoing'
+   */
+  optional string seriesType = 9;
+
+  /**
+   * Return only series containing one or more comics with the specified format.
+   * Valid Values: 
+   * 
+   * * 'comic'
+   * * 'magazine'
+   * * 'trade paperback'
+   * * 'hardcover'
+   * * 'digest'
+   * * 'graphic novel'
+   * * 'digital comic'
+   * * 'infinite comic'
+   *
+   */
+  optional string contains = 10;
+
+  /**
+   * Order the result set by a field or fields. 
+   * Add a "-" to the value sort in descending order. 
+   * Multiple values are given priority in the order in which they are passed.
+   * Valid Values:
+   * 
+   * * 'title'
+   * * 'modified'
+   * * 'startYear'
+   * * '-title'
+   * * '-modified'
+   * * '-startYear'
+   *
+   */
+  optional string orderBy = 11;
+
+  /** Limit the result set to the specified number of resources. */
+  optional uint32 limit = 12 [(fender.v1.fender_field) = { max: 100, min: 1}];
+
+  /** Skip the specified number of resources in the result set. */
+  optional uint32 offset = 13;
+  optional string apikey = 100;
+  optional string ts = 101;
+  optional string hash = 102;
+}
+
+message SeriesRequest {
+  optional int32 seriesId = 1 [(fender.v1.fender_field).present = true];
+  optional string apikey = 100;
+  optional string ts = 101;
+  optional string hash = 102;
+}
+
+message SeriesCharactersRequest {
+  optional int32 seriesId = 1 [(fender.v1.fender_field).present = true];
+
+  /** Return only characters matching the specified full character name (e.g. Spider-Man). */
+  optional string name = 2;
+
+  /** Return characters with names that begin with the specified string (e.g. Sp). */
+  optional string nameStartsWith = 3;
+
+  /** Return only characters which have been modified since the specified date. */
+  optional string modifiedSince = 4;
+
+  /** Return only characters which appear in the specified comics (accepts a comma-separated list of ids). */
+  optional string comics = 5;
+
+  /** Return only characters which appear the specified series (accepts a comma-separated list of ids). */
+  optional string series = 6;
+
+  /** Return only characters which appear in the specified events (accepts a comma-separated list of ids). */
+  optional string events = 7;
+
+  /** Return only characters which appear the specified stories (accepts a comma-separated list of ids). */
+  optional string stories = 8;
+
+  /** 
+   * Order the result set by a field or fields. 
+   * Add a "-" to the value sort in descending order. 
+   * Multiple values are given priority in the order in which they are passed. 
+   *
+   * Valid Values: 
+   * 
+   * * 'name'
+   * * 'modified'
+   * * '-name'
+   * * '-modified'
+   *
+   */
+  optional string orderBy = 9;
+
+  /** Limit the result set to the specified number of resources. */
+  optional uint32 limit = 10 [(fender.v1.fender_field) = { max: 100, min: 1}];
+
+  /** Skip the specified number of resources in the result set. */
+  optional uint32 offset = 11;
+  optional string apikey = 100;
+  optional string ts = 101;
+  optional string hash = 102;
+}
+
+message SeriesComicsRequest {
+  optional int32 seriesId = 1 [(fender.v1.fender_field).present = true];
+  optional ComicsRequest comicsRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message SeriesCreatorsRequest {
+  optional int32 seriesId = 1 [(fender.v1.fender_field).present = true];
+  optional CreatorsRequest creatorsRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message SeriesEventsRequest {
+  optional int32 seriesId = 1 [(fender.v1.fender_field).present = true];
+  optional EventsRequest eventsRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message SeriesStoriesRequest {
+  optional int32 seriesId = 1 [(fender.v1.fender_field).present = true];
+  optional StoriesRequest storiesRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message StoriesRequest {
+  /** Return only stories which have been modified since the specified date. */
+  optional string modifiedSince = 1; //date
+
+  /** Return only stories contained in the specified (accepts a comma-separated list of ids). */
+  optional string comics = 2;
+
+  /** Return only stories contained the specified series (accepts a comma-separated list of ids). */
+  optional string series = 3;
+
+  /** Return only stories which take place during the specified events (accepts a comma-separated list of ids). */
+  optional string events = 4;
+
+  /** Return only stories which feature work by the specified creators (accepts a comma-separated list of ids). */
+  optional string creators = 5;
+
+  /**
+   * Order the result set by a field or fields. 
+   * Add a "-" to the value sort in descending order. 
+   * Multiple values are given priority in the order in which they are passed.
+   *
+   * Valid Values:
+   *
+   * * 'id'
+   * * 'modified'
+   * * '-id'
+   * * '-modified'
+   *
+   */
+  optional string orderBy = 6;
+
+  /** Limit the result set to the specified number of resources. */
+  optional uint32 limit = 7 [(fender.v1.fender_field) = { max: 100, min: 1}];
+
+  /** Skip the specified number of resources in the result set. */
+  optional uint32 offset = 8;
+  optional string apikey = 100;
+  optional string ts = 101;
+  optional string hash = 102;
+}
+
+message StoryRequest {
+  optional int32 storyId = 1 [(fender.v1.fender_field).present = true];
+  optional string apikey = 100;
+  optional string ts = 101;
+  optional string hash = 102;
+}
+
+message StoryCharactersRequest {
+  optional int32 storyId = 1 [(fender.v1.fender_field).present = true];
+  optional CharactersRequest charactersRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message StoryComicsRequest {
+  optional int32 storyId = 1 [(fender.v1.fender_field).present = true];
+  optional ComicsRequest comicsRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message StoryCreatorsRequest {
+  optional int32 storyId = 1 [(fender.v1.fender_field).present = true];
+  optional CreatorsRequest creatorsRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message StoryEventsRequest {
+  optional int32 storyId = 1 [(fender.v1.fender_field).present = true];
+  optional EventsRequest eventsRequest = 2 [(fender.v1.fender_field).present = true];
+}
+
+message StorySeriesRequest {
+  optional int32 storyId = 1 [(fender.v1.fender_field).present = true];
+  optional SeriesListRequest seriesRequest = 2 [(fender.v1.fender_field).present = true];
+}
