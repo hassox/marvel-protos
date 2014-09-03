@@ -5,11 +5,16 @@ import "fender/v1/field_options.proto";
 import "marvel/cable/public/messages.proto";
 import "marvel/cable/public/requests.proto";
 
+/**
+ * The [Marvel developer API](https://developer.marvel.com)
+ * You'll need to sign up for a developer account and provide your api key as outlined in their [authorization section]()
+ */
 service MarvelService {
   option (fender.v1.fender_service) = {
     address: "https://gateway.marvel.com",
     transport: HTTPS,
-    request_format: JSON
+    request_format: JSON,
+    cors_enabled: true
   };
 
   /** Fetches lists of characters */

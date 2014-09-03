@@ -47,7 +47,7 @@ message CharactersRequest {
   /** Skip the specified number of resources in the result set. */
   optional uint32 offset = 10;
 
-  optional string apikey = 100;
+  optional string apikey = 100 [(fender.v1.fender_field).present = true];
   optional string ts = 101;
   optional string hash = 102;
 }
@@ -55,7 +55,7 @@ message CharactersRequest {
 message CharacterRequest {
   /** A single character id. */
   optional int32 characterId = 1 [(fender.v1.fender_field).present = true];
-  optional string apikey = 100;
+  optional string apikey = 100 [(fender.v1.fender_field).present = true];
   optional string ts = 101;
   optional string hash = 102;
 }
@@ -199,14 +199,14 @@ message ComicsRequest {
 
   /** Skip the specified number of resources in the result set. */
   optional uint32 offset = 27;
-  optional string apikey = 100;
+  optional string apikey = 100 [(fender.v1.fender_field).present = true];
   optional string ts = 101;
   optional string hash = 102;
 }
 
 message ComicRequest {
   optional int32 comicId = 1 [(fender.v1.fender_field).present = true];
-  optional string apikey = 100;
+  optional string apikey = 100 [(fender.v1.fender_field).present = true];
   optional string ts = 102;
   optional string hash = 103;
 }
@@ -294,7 +294,7 @@ message CreatorsRequest {
 
   /** Skip the specified number of resources in the result set. */
   optional uint32 offset = 16;
-  optional string apikey = 100;
+  optional string apikey = 100 [(fender.v1.fender_field).present = true];
   optional string ts = 101;
   optional string hash = 102;
 }
@@ -302,7 +302,7 @@ message CreatorsRequest {
 message CreatorRequest {
   /** A single creator id. */
   optional int32 creatorId = 1 [(fender.v1.fender_field).present = true];
-  optional string apikey = 100;
+  optional string apikey = 100 [(fender.v1.fender_field).present = true];
   optional string ts = 101;
   optional string hash = 102;
 }
@@ -373,7 +373,7 @@ message EventsRequest {
 
   /** Skip the specified number of resources in the result set. */
   optional uint32 offset = 10;
-  optional string apikey = 100;
+  optional string apikey = 100 [(fender.v1.fender_field).present = true];
   optional string ts = 101;
   optional string hash = 102;
 }
@@ -381,7 +381,7 @@ message EventsRequest {
 message EventRequest {
   /** A single event. */
   optional int32 eventId = 1;
-  optional string apikey = 100;
+  optional string apikey = 100 [(fender.v1.fender_field).present = true];
   optional string ts = 101;
   optional string hash = 102;
 }
@@ -489,14 +489,14 @@ message SeriesListRequest {
 
   /** Skip the specified number of resources in the result set. */
   optional uint32 offset = 13;
-  optional string apikey = 100;
+  optional string apikey = 100 [(fender.v1.fender_field).present = true];
   optional string ts = 101;
   optional string hash = 102;
 }
 
 message SeriesRequest {
   optional int32 seriesId = 1 [(fender.v1.fender_field).present = true];
-  optional string apikey = 100;
+  optional string apikey = 100 [(fender.v1.fender_field).present = true];
   optional string ts = 101;
   optional string hash = 102;
 }
@@ -545,7 +545,7 @@ message SeriesCharactersRequest {
 
   /** Skip the specified number of resources in the result set. */
   optional uint32 offset = 11;
-  optional string apikey = 100;
+  optional string apikey = 100 [(fender.v1.fender_field).present = true];
   optional string ts = 101;
   optional string hash = 102;
 }
@@ -606,14 +606,14 @@ message StoriesRequest {
 
   /** Skip the specified number of resources in the result set. */
   optional uint32 offset = 8;
-  optional string apikey = 100;
+  optional string apikey = 100 [(fender.v1.fender_field).present = true];
   optional string ts = 101;
   optional string hash = 102;
 }
 
 message StoryRequest {
   optional int32 storyId = 1 [(fender.v1.fender_field).present = true];
-  optional string apikey = 100;
+  optional string apikey = 100 [(fender.v1.fender_field).present = true];
   optional string ts = 101;
   optional string hash = 102;
 }
